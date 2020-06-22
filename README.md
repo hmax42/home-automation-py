@@ -8,6 +8,7 @@ my home-automation-scripts
   * publishes to /tradfri/ID/status
   * receives on /tradfri/ID
   * supports lights, blinds and groups
+    * ignores the state of groups and checks the contained lights first and blinds first
   * currently the messages consist of "on" and "off"
     * for blinds this is internally translated to 99.0 and 1.0
 * Wake on LAN
