@@ -1,16 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 import urllib
 import time
 import sys
 import argparse
 import paho.mqtt.client as mqtt
+#from wakeonlan import send_magic_packet
 from datetime import datetime
 
 import socket
 import struct
-
-broker = "192.168.7.3"
 
 def wake_on_lan(macaddress):
     """ Switches on remote computers using WOL. """
@@ -25,8 +24,8 @@ def wake_on_lan(macaddress):
         raise ValueError('Incorrect MAC address format')
  
     # Pad the synchronization stream.
-    data = ''.join(['FFFFFFFFFFFF', macaddress * 20])
-    send_data = '' 
+    data = b''.join([b'FFFFFFFFFFFF', bytes(macaddress) * 20])
+    send_data = b'' 
 
     # Split up the hex values and pack.
     for i in range(0, len(data), 2):
@@ -55,7 +54,7 @@ client.on_message = on_message
 
 
 client.will_set("wakeonlan/status", "0", 0, True)
-client.connect(broker, 1883, 60)
+client.connect("192.168.7.66", 1883, 60)
 client.publish("wakeonlan/status", "1", 0 , True)
 
 try:
